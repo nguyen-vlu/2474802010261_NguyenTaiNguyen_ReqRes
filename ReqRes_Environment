@@ -1,0 +1,28 @@
+{
+	"id": "e75e85ed-2bf2-470f-afe1-6e4dbe08b501",
+	"name": "2474802010261_NguyenTaiNguyen_ReqRes",
+	"values": [
+		{
+			"key": "baseUrl",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "userId",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "userToken",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"color": null,
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2026-10-22T07:46:08.028Z",
+	"_postman_exported_using": "Postman/12.33.1"
+}
