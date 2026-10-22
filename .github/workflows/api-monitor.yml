@@ -1,0 +1,35 @@
+name: Scheduled API Monitor
+
+on:
+  schedule:
+    - cron: '0 8 * * *' # Tự động chạy vào 8:00 sáng mỗi ngày
+  workflow_dispatch: # Cò súng phụ: Cho phép bấm chạy thủ công để test
+
+jobs:
+  monitor-api:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Lấy mã nguồn
+        uses: actions/checkout@v4
+
+      - name: Cài đặt Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Cài đặt Newman CLI & HTML Extra
+        run: |
+          npm install -g newman
+          npm install -g newman-reporter-htmlextra
+
+      - name: Chạy Monitor giám sát API
+        continue-on-error: true
+        run: newman run ReqRes_Collection.json -e ReqRes_Environment.json -d users.csv --delay-request 2000 --reporters cli,htmlextra --reporter-htmlextra-export monitor-report.html
+
+      - name: Upload Báo cáo Monitor
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Monitor-HTML-Report
+          path: monitor-report.html
