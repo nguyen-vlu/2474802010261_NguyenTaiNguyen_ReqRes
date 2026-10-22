@@ -1,0 +1,33 @@
+name: Automated API Tests
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  test-api:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Lấy mã nguồn
+        uses: actions/checkout@v3
+
+      - name: Cài đặt Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Cài đặt Newman CLI & HTML Extra
+        run: |
+          npm install -g newman
+          npm install -g newman-reporter-htmlextra
+
+      - name: Thực thi kiểm thử hướng dữ liệu (Data-Driven)
+        run: newman run ReqRes_Collection.json -e ReqRes_Environment.json -d users.csv --reporters cli,htmlextra --reporter-htmlextra-export report.html
+
+      - name: Upload Báo cáo HTML
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: HTML-Report
+          path: report.html
